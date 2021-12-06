@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class OutputController implements Initializable {
+    int length = 0;
+    ArrayList<String> productions = new ArrayList<>();
 
     @FXML
     private TextField input;
@@ -32,6 +34,11 @@ public class OutputController implements Initializable {
         }else{
             output.setText(GrammarInputController.lr1Parser.getGrammar()+"");
         }
+    }
+
+    @FXML
+    private void handleProduction(ActionEvent event){
+        output.setText(productions.toString());
     }
 
     @FXML
@@ -108,6 +115,7 @@ public class OutputController implements Initializable {
             if(GrammarInputController.parserKind.equals("LR(0)") || GrammarInputController.parserKind.equals("SLR(1)")){
                 boolean accept = GrammarInputController.lr0Parser.accept(words);
                 if(accept){
+                    productions = GrammarInputController.lr0Parser.generateProduction(words);
                     result.setText("accepted");
                     result.setTextFill(Color.GREEN);
                     result.setVisible(true);
@@ -119,6 +127,7 @@ public class OutputController implements Initializable {
             }else{
                 boolean accept = GrammarInputController.lr1Parser.accept(words);
                 if(accept){
+                    productions = GrammarInputController.lr1Parser.generateProduction(words);
                     result.setText("accepted");
                     result.setTextFill(Color.GREEN);
                     result.setVisible(true);
