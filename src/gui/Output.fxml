@@ -25,6 +25,5 @@
       <Button layoutX="20.0" layoutY="335.0" mnemonicParsing="false" onAction="#handleState" style="-fx-background-color: &quot;ffffff&quot;;" text="Canonical Collection" />
       <Button layoutX="48.0" layoutY="390.0" mnemonicParsing="false" onAction="#handleGoTo" style="-fx-background-color: &quot;ffffff&quot;;" text="Go To Table" />
       <Button layoutX="47.0" layoutY="441.0" mnemonicParsing="false" onAction="#handleAction" style="-fx-background-color: &quot;ffffff&quot;;" text="Action Table" />
-      <Button layoutX="56.0" layoutY="489.0" mnemonicParsing="false" onAction="#handleProduction" style="-fx-background-color: &quot;ffffff&quot;;" text="Production" />
    </children>
 </AnchorPane>
