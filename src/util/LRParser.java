@@ -1,9 +1,6 @@
 package util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Stack;
+import java.util.*;
 
 public abstract class LRParser {
 
@@ -38,6 +35,7 @@ public abstract class LRParser {
                 Rule rule = grammar.getRules().get(ruleIndex);
                 String leftSide = rule.getLeftSide();
                 int rightSideLength = rule.getRightSide().length;
+                System.out.println(leftSide + " -> " + rule.toString());
                 for(int i=0; i <2*rightSideLength ; i++){
                     stack.pop();
                 }
@@ -50,6 +48,40 @@ public abstract class LRParser {
             }
         }
         return false;
+    }
+
+    public ArrayList<String> generateProduction(ArrayList<String> inputs) {
+        ArrayList<String> productions = new ArrayList<>();
+        inputs.add("$");
+        int index = 0;
+        Stack<String> stack = new Stack<>();
+        stack.add("0");
+        while(index < inputs.size()){
+            int state = Integer.valueOf(stack.peek());
+            String nextInput = inputs.get(index);
+            Action action = actionTable[state].get(nextInput);
+            if(action.getType() == ActionType.SHIFT){
+                stack.push(nextInput);
+                stack.push(action.getOperand()+"");
+                index++;
+            }else if(action.getType() == ActionType.REDUCE){
+                int ruleIndex = action.getOperand();
+                Rule rule = grammar.getRules().get(ruleIndex);
+                String leftSide = rule.getLeftSide();
+                int rightSideLength = rule.getRightSide().length;
+                productions.add(rule.toString());
+                for(int i=0; i <2*rightSideLength ; i++){
+                    stack.pop();
+                }
+                int nextState = Integer.valueOf(stack.peek());
+                stack.push(leftSide);
+                int variableState = goToTable[nextState].get(leftSide);
+                stack.push(variableState+"");
+            }else if(action.getType() == ActionType.ACCEPT){
+                return productions;
+            }
+        }
+        return productions;
     }
 
     public String goToTableStr() {
