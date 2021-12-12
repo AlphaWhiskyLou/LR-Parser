@@ -55,6 +55,8 @@ public class Grammar {
         
         computeFirstSets();
         computeFollowSet();
+        System.out.println(terminals);
+        System.out.println(variables);
     }
 
     public ArrayList<Rule> getRules() {
