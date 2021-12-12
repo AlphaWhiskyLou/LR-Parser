@@ -38,7 +38,11 @@ public class OutputController implements Initializable {
 
     @FXML
     private void handleProduction(ActionEvent event){
-        output.setText(productions.toString());
+        StringBuilder str = new StringBuilder();
+        for (String s : productions) {
+            str.append(s).append("\n");
+        }
+        output.setText(String.valueOf(str));
     }
 
     @FXML

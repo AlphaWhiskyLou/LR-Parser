@@ -16,6 +16,7 @@ public class LR1Parser extends LRParser {
     }
 
     protected void createStatesForCLR1() {
+        //First initiate the elements
         canonicalCollection = new ArrayList<>();
         HashSet<LR1Item> start = new HashSet<>();
         Rule startRule = grammar.getRules().get(0);
@@ -23,9 +24,11 @@ public class LR1Parser extends LRParser {
         startLockahead.add("$");
         start.add(new LR1Item(startRule.getLeftSide(),startRule.getRightSide(),0,startLockahead));
 
+        //Generate the canonical collection
         LR1State startState = new LR1State(grammar, start);
         canonicalCollection.add(startState);
 
+        //Start parsing
         for (int i = 0; i < canonicalCollection.size(); i++) {
             HashSet<String> stringWithDot = new HashSet<>();
             for (LR1Item item : canonicalCollection.get(i).getItems()) {
@@ -33,15 +36,16 @@ public class LR1Parser extends LRParser {
                     stringWithDot.add(item.getCurrent());
                 }
             }
+            //Generate next state items
             for (String str : stringWithDot) {
                 HashSet<LR1Item> nextStateItems = new HashSet<>();
                 for (LR1Item item : canonicalCollection.get(i).getItems()) {
-
                     if (item.getCurrent() != null && item.getCurrent().equals(str)) {
                         LR1Item temp = new LR1Item(item.getLeftSide(),item.getRightSide(),item.getDotPointer()+1,item.getLookahead());
                         nextStateItems.add(temp);
                     }
                 }
+                //Add the new state
                 LR1State nextState = new LR1State(grammar, nextStateItems);
                 boolean isExist = false;
                 for (int j = 0; j < canonicalCollection.size(); j++) {
@@ -113,6 +117,7 @@ public class LR1Parser extends LRParser {
         canonicalCollection = temp;
     }
 
+    //Generate goto table for the Variables(nonterminals)
     protected void createGoToTable() {
         goToTable = new HashMap[canonicalCollection.size()];
         for (int i = 0; i < goToTable.length; i++) {

@@ -56,7 +56,7 @@ public class GrammarInputController implements Initializable{
                 }
             }else {
                 lr1Parser = new LR1Parser(grammar);
-                if(parser.getValue().equals("CLR(1)")){
+                if(parser.getValue().equals("LR(1)")){
                     canBeParse = lr1Parser.parseCLR1();
                 }else {
                     canBeParse = lr1Parser.parseLALR1();
@@ -83,7 +83,7 @@ public class GrammarInputController implements Initializable{
                 FXCollections.observableArrayList(
                         "LR(0)",
                         "SLR(1)",
-                        "CLR(1)",
+                        "LR(1)",
                         "LALR(1)"
                 );
         parser.setItems(options);
